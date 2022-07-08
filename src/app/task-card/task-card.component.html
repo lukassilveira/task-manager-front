@@ -35,6 +35,16 @@
           placeholder="Insira uma descrição"
         />
       </div>
+      <div class="form-group mt-3">
+        <label for="done" style="margin-right: .5em;">Tarefa feita?</label>
+        <input
+          formControlName="done"
+          type="checkbox"
+          class="form-check-input ml-2"
+          id="done"
+          aria-describedby="done"
+        />
+      </div>
       <button class="btn btn-primary mt-3" [disabled]="editTaskForm.invalid">
         Confirmar
       </button>

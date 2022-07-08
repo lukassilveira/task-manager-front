@@ -18,7 +18,7 @@ export class TaskCardComponent implements OnInit {
   @Input() id: number;
   @Input() description: String;
   @Input() date: String;
-  @Input() isDone: boolean;
+  @Input() done: boolean;
   public statusText: String;
 
   @Output() listTasksEvent = new EventEmitter<any>();
@@ -26,6 +26,7 @@ export class TaskCardComponent implements OnInit {
   editTaskForm = this.formBuilder.group({
     name: ['', Validators.required],
     description: ['', Validators.required],
+    done: [''],
   })
 
   constructor(
@@ -35,8 +36,8 @@ export class TaskCardComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    if (this.isDone) {
-      this.statusText = "Done";
+    if (this.done) {
+      this.statusText = "Feita";
     } else {
       this.statusText = "To Do";
     }
@@ -45,6 +46,7 @@ export class TaskCardComponent implements OnInit {
   onSubmit() {
     const data = {
       name: this.editTaskForm.get("name").value,
+      done: this.editTaskForm.get("done").value ? '0' : '1',
       description: this.editTaskForm.get("description").value,
       id: this.id
     };
@@ -90,7 +92,7 @@ export class TaskCardComponent implements OnInit {
       backdropClass: "modal-backdrop"
     })
 
-    this.editTaskForm.patchValue({ name: this.name, description: this.description });
+    this.editTaskForm.patchValue({ name: this.name, description: this.description, done: this.done });
   }
 
   closeModal() {

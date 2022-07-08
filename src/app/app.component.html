@@ -15,7 +15,7 @@
       [name]="task?.name"
       [description]="task?.description"
       [date]="task?.creationDate"
-      [isDone]="task?.isDone == 0"
+      [done]="task?.done == 0"
       (listTasksEvent)="listAllTasks()"
     ></task-card>
   </div>

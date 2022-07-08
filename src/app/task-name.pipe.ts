@@ -10,8 +10,8 @@ export class TaskNamePipe implements PipeTransform {
       return tasks;
     }
 
-    return tasks.filter(e =>
-      e.name.toLowerCase().indexOf(search.toLowerCase()) !== -1);
+    return tasks.filter(task =>
+      task.name.toLowerCase().indexOf(search.toLowerCase()) !== -1);
   }
 
 }
