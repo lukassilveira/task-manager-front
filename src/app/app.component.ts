@@ -38,9 +38,10 @@ export class AppComponent implements OnInit {
   }
 
   onSubmit() {
-    this.taskService.addNewTask(this.addTaskForm.value).subscribe();
-    this.listAllTasks();
-    this.closeModal();
+    this.taskService.addNewTask(this.addTaskForm.value).subscribe(() => {
+      this.listAllTasks();
+      this.closeModal();
+    });
   }
 
   openModal() {

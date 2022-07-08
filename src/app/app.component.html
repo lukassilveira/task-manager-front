@@ -2,9 +2,17 @@
   <button class="btn btn-primary m-2" (click)="openModal()">Nova Tarefa</button>
   <button class="btn btn-dark m-2">Editar Tarefa</button>
 </div>
-<div class="container cards-grid d-flex flex-wrap justify-content-center" >
+<div class="container cards-grid d-flex flex-wrap justify-content-center">
+  <h1 class="mt-5" *ngIf="tasks.length == 0">Sem tarefas!</h1>
   <div *ngFor="let task of tasks">
-    <task-card [name]="task?.name" [description]="task?.description" [date]="task?.creationDate" [isDone]="task?.isDone == 0"></task-card>
+    <task-card
+      [id]="task?.id"
+      [name]="task?.name"
+      [description]="task?.description"
+      [date]="task?.creationDate"
+      [isDone]="task?.isDone == 0"
+      (listTasksEvent)="listAllTasks()"
+    ></task-card>
   </div>
 </div>
 

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ModalManager } from 'ngb-modal';
 import { TaskService } from '../task.service';
@@ -11,13 +11,17 @@ import { TaskService } from '../task.service';
 export class TaskCardComponent implements OnInit {
 
   @ViewChild('editTaskModal') editTaskModal;
+  @ViewChild('deleteTaskModal') deleteTaskModal;
   private modalRef;
 
   @Input() name: String;
+  @Input() id: number;
   @Input() description: String;
   @Input() date: String;
   @Input() isDone: boolean;
   public statusText: String;
+
+  @Output() listTasksEvent = new EventEmitter<any>();
 
   editTaskForm = this.formBuilder.group({
     name: ['', Validators.required],
@@ -39,10 +43,41 @@ export class TaskCardComponent implements OnInit {
   }
 
   onSubmit() {
-    
+    const data = {
+      name: this.editTaskForm.get("name").value,
+      description: this.editTaskForm.get("description").value,
+      id: this.id
+    };
+    this.taskService.updateTask(data).subscribe(() => {
+      this.listTasksEvent.emit();
+    });
+    this.closeModal();
   }
 
-  openModal() {
+  deleteTask() {
+    this.taskService.deleteTask(this.id).subscribe(() => {
+      this.listTasksEvent.emit();
+      this.closeModal();
+    });
+  }
+
+  openDeleteModal() {
+    this.modalRef = this.modalService.open(this.deleteTaskModal, {
+      size: "md",
+      modalClass: 'mymodal',
+      hideCloseButton: true,
+      centered: true,
+      backdrop: true,
+      animation: true,
+      keyboard: false,
+      closeOnOutsideClick: true,
+      backdropClass: "modal-backdrop"
+    })
+
+    this.editTaskForm.patchValue({ name: this.name, description: this.description });
+  }
+
+  openEditModal() {
     this.modalRef = this.modalService.open(this.editTaskModal, {
       size: "md",
       modalClass: 'mymodal',
@@ -54,7 +89,11 @@ export class TaskCardComponent implements OnInit {
       closeOnOutsideClick: true,
       backdropClass: "modal-backdrop"
     })
-    
-    this.editTaskForm.patchValue({name: this.name, description: this.description});
+
+    this.editTaskForm.patchValue({ name: this.name, description: this.description });
+  }
+
+  closeModal() {
+    this.modalService.close(this.modalRef);
   }
 }

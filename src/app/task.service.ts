@@ -15,4 +15,12 @@ export class TaskService {
   public addNewTask(task) {    
     return this.httpClient.post(`http://localhost:8080/task/add`, task)
   }
+
+  public updateTask(task) {    
+    return this.httpClient.put(`http://localhost:8080/task/update`, task)
+  }
+
+  public deleteTask(taskId) {    
+    return this.httpClient.delete(`http://localhost:8080/task/delete/${taskId}`)
+  }
 }
