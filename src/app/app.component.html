@@ -1,10 +1,15 @@
 <div class="bg-secondary">
-  <button class="btn btn-primary m-2" (click)="openModal()">Nova Tarefa</button>
-  <button class="btn btn-dark m-2">Editar Tarefa</button>
+  <div class="d-flex justify-content-between">
+    <div>
+      <button class="btn btn-primary m-2" (click)="openModal()">Nova Tarefa</button>
+      <button class="btn btn-dark m-2">Editar Tarefa</button>
+    </div>
+    <input type="text" style="width: 15em;" [(ngModel)]="search" [placeholder]="'Busque uma tarefa pelo nome'">
+  </div>
 </div>
 <div class="container cards-grid d-flex flex-wrap justify-content-center">
   <h1 class="mt-5" *ngIf="tasks.length == 0">Sem tarefas!</h1>
-  <div *ngFor="let task of tasks">
+  <div *ngFor="let task of tasks | taskName: search">
     <task-card
       [id]="task?.id"
       [name]="task?.name"

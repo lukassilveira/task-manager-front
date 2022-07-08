@@ -21,6 +21,7 @@ export class AppComponent implements OnInit {
   private modalRef;
 
   public tasks: any[] = [];
+  public search: string;
 
   addTaskForm = this.formBuilder.group({
     name: ['', Validators.required],
